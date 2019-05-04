@@ -1,0 +1,24 @@
+random_seed: 1234
+device:
+  type: cuda
+  ordinal: 0
+dataset_dir: './dataset/classification'
+data_loader:
+  batch_size: 32
+  n_workers: 4
+net:
+  type: 'BertForSequenceClassificationWrapper'
+  frozen: False
+  tuned_layers: 'all'
+  bert_pretrained_model_name: 'bert-base-uncased'
+  num_labels: 5
+  dropout: 0.5
+optim:
+  algo: 'BertAdam'
+  kwargs:
+    lr: 5.0e-5
+    warmup: 0.1
+train:
+  n_epochs: 5
+  max_grad_norm: 1
+  n_gradient_accumulation_steps: 1  # Must be a divider of data_loader.batch_size.

@@ -1,0 +1,41 @@
+random_seed: 1029834
+device:
+  type: cuda
+  ordinal: 0
+dataset_dir: './dataset/classification'
+data_loader:
+  max_sent_len: 64
+  max_word_len: 16
+  batch_size: 32
+  n_workers: 4
+net:
+  char_conv_kernel_size: 3
+  d_model: 128
+  dropout: 0.1
+use_elmo: true
+elmo_embedder:
+  # Set the value of ``ELMo.embedder`` init parameters here.
+  n_ctx_embs: 3  # The number of the contextualized embedding, required.  
+  ctx_emb_dim: 1024  # The dimension of the contextualized embedding, required.
+  device:
+    type: cuda
+    ordinal: 0
+  char_vocabulary_path: './dataset/language_model/char_vocabulary.pkl'
+  elmo_model_path: './ELMo/models/exp0/model.65.pkl'
+  hidden_size: 2048
+  dim_projection: 512
+  num_embeddings: 99
+  embedding_dim: 16
+  padding_idx: 0
+  conv_filters: [[1, 32], [2, 64], [3, 128], [4, 128], [5, 256], [6, 256], [7, 512]]
+  n_highways: 2
+  projection_size: 512
+optim:
+  algo: 'Adam'
+  kwargs:
+    lr: 1.0e-3
+    weight_decay: 1.0e-6
+train:
+  n_epochs: 20
+  max_grad_norm: 1
+  n_gradient_accumulation_steps: 1  # Must be a divider of data_loader.batch_size.
